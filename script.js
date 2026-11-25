@@ -1,7 +1,33 @@
 const scene = document.querySelector(".scene");
 const dove = document.querySelector(".dove");
+const profile = document.querySelector(".profile");
 const name = document.querySelector(".name");
+const details = document.querySelector(".details");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+if (
+  profile instanceof HTMLElement &&
+  name instanceof HTMLButtonElement &&
+  details instanceof HTMLElement
+) {
+  const setPanelOpen = (open) => {
+    profile.classList.toggle("profile--open", open);
+    name.setAttribute("aria-expanded", String(open));
+    details.setAttribute("aria-hidden", String(!open));
+    details.inert = !open;
+  };
+
+  name.addEventListener("click", () => {
+    setPanelOpen(name.getAttribute("aria-expanded") !== "true");
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && name.getAttribute("aria-expanded") === "true") {
+      setPanelOpen(false);
+      name.focus();
+    }
+  });
+}
 
 if (scene instanceof HTMLElement && dove instanceof HTMLElement && name instanceof HTMLElement && !reducedMotion.matches) {
   let x = 24;
