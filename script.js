@@ -3,6 +3,7 @@ const dove = document.querySelector(".dove");
 const profile = document.querySelector(".profile");
 const name = document.querySelector(".name");
 const details = document.querySelector(".details");
+const hint = document.querySelector("#interaction-hint");
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 if (
@@ -19,6 +20,10 @@ if (
 
   name.addEventListener("click", () => {
     setPanelOpen(name.getAttribute("aria-expanded") !== "true");
+    if (hint instanceof HTMLElement) {
+      hint.classList.remove("hint--visible");
+      hint.setAttribute("aria-hidden", "true");
+    }
   });
 
   document.addEventListener("keydown", (event) => {
@@ -27,6 +32,15 @@ if (
       name.focus();
     }
   });
+}
+
+if (hint instanceof HTMLElement && name instanceof HTMLButtonElement) {
+  window.setTimeout(() => {
+    if (name.getAttribute("aria-expanded") !== "true") {
+      hint.classList.add("hint--visible");
+      hint.setAttribute("aria-hidden", "false");
+    }
+  }, 60_000);
 }
 
 if (scene instanceof HTMLElement && dove instanceof HTMLElement && name instanceof HTMLElement && !reducedMotion.matches) {
