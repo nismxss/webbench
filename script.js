@@ -49,6 +49,39 @@ if (scene instanceof HTMLElement && dove instanceof HTMLElement && name instance
   let velocityX = 118;
   let velocityY = 83;
   let previousTime = 0;
+  let sceneLeft = 0;
+  let sceneWidth = 0;
+  let sceneHeight = 0;
+  let birdWidth = 0;
+  let birdHeight = 0;
+  let obstacleBounds = { left: 0, right: 0, top: 0, bottom: 0 };
+
+  const measure = () => {
+    const sceneBounds = scene.getBoundingClientRect();
+    const nameBounds = name.getBoundingClientRect();
+    const padding = 12;
+
+    sceneLeft = sceneBounds.left;
+    sceneWidth = scene.clientWidth;
+    sceneHeight = scene.clientHeight;
+    birdWidth = dove.offsetWidth;
+    birdHeight = dove.offsetHeight;
+    obstacleBounds = {
+      left: nameBounds.left - sceneLeft - padding,
+      right: nameBounds.right - sceneLeft + padding,
+      top: nameBounds.top - sceneBounds.top - padding,
+      bottom: nameBounds.bottom - sceneBounds.top + padding,
+    };
+  };
+
+  measure();
+  window.addEventListener("resize", measure, { passive: true });
+
+  if ("ResizeObserver" in window) {
+    const resizeObserver = new ResizeObserver(measure);
+    resizeObserver.observe(scene);
+    resizeObserver.observe(name);
+  }
 
   const intersects = (left, top, width, height, obstacle) =>
     left < obstacle.right &&
@@ -59,11 +92,8 @@ if (scene instanceof HTMLElement && dove instanceof HTMLElement && name instance
   const animate = (time) => {
     const elapsed = previousTime === 0 ? 0 : Math.min((time - previousTime) / 1000, 0.04);
     previousTime = time;
-    const bounds = scene.getBoundingClientRect();
-    const birdWidth = dove.offsetWidth;
-    const birdHeight = dove.offsetHeight;
-    const maxX = Math.max(0, scene.clientWidth - birdWidth);
-    const maxY = Math.max(0, scene.clientHeight - birdHeight);
+    const maxX = Math.max(0, sceneWidth - birdWidth);
+    const maxY = Math.max(0, sceneHeight - birdHeight);
     if (x > maxX) {
       x = maxX;
       velocityX = -Math.abs(velocityX);
@@ -89,15 +119,6 @@ if (scene instanceof HTMLElement && dove instanceof HTMLElement && name instance
       nextY = 2 * maxY - nextY;
       velocityY *= -1;
     }
-
-    const heading = name.getBoundingClientRect();
-    const padding = 12;
-    const obstacleBounds = {
-      left: heading.left - bounds.left - padding,
-      right: heading.right - bounds.left + padding,
-      top: heading.top - bounds.top - padding,
-      bottom: heading.bottom - bounds.top + padding,
-    };
 
     if (intersects(nextX, nextY, birdWidth, birdHeight, obstacleBounds)) {
       if (velocityX > 0 && x + birdWidth <= obstacleBounds.left) {

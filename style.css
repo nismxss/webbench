@@ -48,13 +48,13 @@ body {
   z-index: -1;
   width: clamp(560px, 78vw, 1080px);
   height: clamp(480px, 74vh, 840px);
-  border-radius: 62% 38% 55% 45% / 45% 60% 40% 55%;
   background:
-    radial-gradient(ellipse at 28% 42%, rgb(255 255 255 / 62%) 0%, rgb(255 255 255 / 30%) 19%, transparent 52%),
-    radial-gradient(ellipse at 66% 57%, rgb(255 255 255 / 48%) 0%, rgb(255 255 255 / 22%) 24%, transparent 58%),
-    radial-gradient(ellipse at 48% 22%, rgb(255 255 255 / 34%) 0%, transparent 48%),
-    radial-gradient(ellipse at 78% 30%, rgb(255 255 255 / 28%) 0%, transparent 44%);
-  filter: blur(24px);
+    radial-gradient(ellipse at 28% 42%, rgb(255 255 255 / 58%) 0%, rgb(255 255 255 / 26%) 20%, transparent 82%),
+    radial-gradient(ellipse at 66% 57%, rgb(255 255 255 / 44%) 0%, rgb(255 255 255 / 20%) 25%, transparent 86%),
+    radial-gradient(ellipse at 48% 22%, rgb(255 255 255 / 30%) 0%, transparent 76%),
+    radial-gradient(ellipse at 78% 30%, rgb(255 255 255 / 24%) 0%, transparent 74%);
+  -webkit-mask-image: radial-gradient(ellipse closest-side at center, #000 24%, rgb(0 0 0 / 82%) 48%, transparent 100%);
+  mask-image: radial-gradient(ellipse closest-side at center, #000 24%, rgb(0 0 0 / 82%) 48%, transparent 100%);
   opacity: 0.72;
   pointer-events: none;
 }
@@ -74,22 +74,18 @@ body {
 @keyframes ambient-one {
   0%, 100% {
     transform: translate3d(-1vw, 0, 0) scale(1.02, 0.92);
-    border-radius: 62% 38% 55% 45% / 45% 60% 40% 55%;
     opacity: 0.62;
   }
   23% {
     transform: translate3d(5vw, 7vh, 0) scale(1.12, 0.98);
-    border-radius: 48% 52% 39% 61% / 60% 42% 58% 40%;
     opacity: 0.76;
   }
   49% {
     transform: translate3d(16vw, 14vh, 0) scale(0.96, 1.08);
-    border-radius: 57% 43% 64% 36% / 38% 56% 44% 62%;
     opacity: 0.68;
   }
   74% {
     transform: translate3d(9vw, 5vh, 0) scale(1.1, 0.94);
-    border-radius: 43% 57% 48% 52% / 55% 39% 61% 45%;
     opacity: 0.78;
   }
 }
@@ -97,22 +93,18 @@ body {
 @keyframes ambient-two {
   0%, 100% {
     transform: translate3d(1vw, 0, 0) scale(0.96, 1.08);
-    border-radius: 42% 58% 53% 47% / 59% 43% 57% 41%;
     opacity: 0.68;
   }
   28% {
     transform: translate3d(-7vw, -8vh, 0) scale(1.08, 0.94);
-    border-radius: 59% 41% 44% 56% / 40% 62% 38% 60%;
     opacity: 0.8;
   }
   54% {
     transform: translate3d(-16vw, -15vh, 0) scale(0.94, 1.12);
-    border-radius: 46% 54% 61% 39% / 53% 38% 62% 47%;
     opacity: 0.7;
   }
   79% {
     transform: translate3d(-8vw, -6vh, 0) scale(1.1, 0.96);
-    border-radius: 64% 36% 47% 53% / 43% 57% 43% 57%;
     opacity: 0.76;
   }
 }
@@ -348,6 +340,28 @@ body {
 }
 
 @media (max-width: 600px) {
+  .scene::before {
+    display: none;
+  }
+
+  .scene__glow {
+    width: 145vw;
+    height: 110vw;
+    background:
+      radial-gradient(ellipse at 30% 42%, rgb(255 255 255 / 48%) 0%, rgb(255 255 255 / 23%) 24%, transparent 82%),
+      radial-gradient(ellipse at 68% 58%, rgb(255 255 255 / 36%) 0%, rgb(255 255 255 / 17%) 28%, transparent 86%);
+  }
+
+  .scene__glow--one {
+    top: -34%;
+    left: -48%;
+  }
+
+  .scene__glow--two {
+    right: -48%;
+    bottom: -38%;
+  }
+
   .name {
     font-size: clamp(42px, 12vw, 76px);
     letter-spacing: -0.06em;
